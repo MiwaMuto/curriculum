@@ -1,0 +1,88 @@
+～自分流解釈～
+Cisco Packet Tracer Command Memo
+
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+■そもそもCLIとは？
+　CLIは「Command Line Interface」の略。
+　「全部の操作をキーボードだけでペチペチやる画面」のこと。
+　＝CUI「Character User Interface」と同じ
+
+------------------------------------------------------------------------------------------------
+
+■CLIの各モードについて
+　※表示名は変更できるため、仮名として「hostname」で表示。
+　　CLIは各機器の操作をキーボード行う画面のため、表示のイメージは
+　　「hostname（機器の名前）」＋「>（モードを表す符号）」
+
+　・ユーザモード
+	CLIタブに入った時（ネットワーク機器が起動した直後）に起動しているモード。
+	表示：hostname>
+
+　・特権モード
+	各種設定を確認するためのモード。
+	表示：hostname#
+
+　・グローバルコンフィギュレーションモード
+	設定変更をするためのモード。
+	表示：hostname(config)#
+
+------------------------------------------------------------------------------------------------
+
+■各モードの移動について
+　モード間の移動は、ユーザモード⇔特権モード⇔グローバルコンフィギュレーションモードの順番で、1段階ずつしかできない。
+　進むときはそれぞれ別コマンドがあり、戻るときはすべて「exit」。
+
+　・ユーザモード　→　特権モード
+	コマンド：enable
+	　省略形：en,ena
+	 　入力時：hostname>enable
+
+　・特権モード　　→　グローバルコンフィギュレーションモード
+	コマンド：configure terminal
+	　省略形：conf t
+	　入力時：hostname#confirure terminal
+
+　＞まとめ
+　・ユーザモード（hostname>）
+　「exit」↑↓「enable(en)」
+　・特権モード（hostname#）
+　「exit」↑↓「configure terminal（conf t）」
+　・グローバルコンフィギュレーションモード（hostname(config)#）
+
+------------------------------------------------------------------------------------------------
+
+■各モードで使用するコマンドについて
+
+　・ユーザモード（hostname>）
+	ここは起動直後のコマンドのためコマンドはほとんど使用しない
+
+　・特権モード（hostname#）
+	①起動時の設定を確認する
+	　コマンド：show startup-config
+	　　省略形：show star
+	　　入力時：hostname#show startup-config
+
+	②現在の設定を確認する
+	　コマンド：show running-config
+	　　省略形：show run
+	　　入力時：hostname#show running-config
+
+	③起動時の設定を保存する
+	　コマンド：write memory
+	　　入力時：hostname#write memory
+
+	③現在の設定を起動時の設定にコピーする
+	　コマンド：copy running-config startup-config
+	　　入力時：hostname#copy running-config startup-config
+	　※
+	　　書き方：copy コピーしたいもの コピー先
+	　イメージ：copy A to B（AをBにコピーする）
+
+　・グローバルコンフィギュレーションモード（hostname(config)#）
+	①hostnameを変更する
+	　コマンド：hostname 変更したい名前
+	　　入力時：hostname(config)#hostname 変更したい名前
+	　注意事項：hostnameの変更は、「現在の名前の変更」のため、
+		　この変更で反映される名前は「現在の設定（running-config）」の名前だけ！
+		　startup-configの名前を変更するときは、特権モード③もしくは④のコマンドを使用する必要がある！！
