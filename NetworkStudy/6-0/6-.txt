@@ -1,4 +1,7 @@
+前提：各機器にIPアドレスなし。設定なし。
+
 ①PC0～2、Server0、router0のG0/1にIPアドレスを振る。
+　デフォルトゲートウェイはsever0のIPアドレスに設定。
 
 ②switch1：すべてのポートにVlan10を作成、アクセスポートに変更・適用
 Switch(config)#interface FastEthernet0/1
@@ -6,19 +9,21 @@ Switch(config-if)#switchport mode access
 Switch(config-if)#switchport access vlan 10
 Switch(config-if)#no shutdown
 
-
 ③switch1：F0/1～F0/3にポートセキュリティの設定を行う
 Switch(config)#interface FastEthernet0/1
+Switch(config-if)#switchport port-security
 Switch(config-if)#switchport port-security maximum 1
 Switch(config-if)#switchport port-security mac-address 0030.A336.211A
 Switch(config-if)#switchport port-security violation shutdown
 
 Switch(config)#interface FastEthernet0/2
+Switch(config-if)#switchport port-security
 Switch(config-if)#switchport port-security maximum 1
 Switch(config-if)#switchport port-security mac-address 0060.2F7C.EEBD
 Switch(config-if)#switchport port-security violation shutdown
 
 Switch(config)#interface FastEthernet0/3
+Switch(config-if)#switchport port-security
 Switch(config-if)#switchport port-security maximum 2
 Switch(config-if)#switchport port-security mac-address stick
 Switch(config-if)#switchport port-security violation restrict
