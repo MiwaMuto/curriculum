@@ -1,0 +1,49 @@
+①PC0～2、Server0、router0のG0/1にIPアドレスを振る。
+
+②switch1：すべてのポートにVlan10を作成、アクセスポートに変更・適用
+Switch(config)#interface FastEthernet0/1
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 10
+Switch(config-if)#no shutdown
+
+
+③switch1：F0/1～F0/3にポートセキュリティの設定を行う
+Switch(config)#interface FastEthernet0/1
+Switch(config-if)#switchport port-security maximum 1
+Switch(config-if)#switchport port-security mac-address 0030.A336.211A
+Switch(config-if)#switchport port-security violation shutdown
+
+Switch(config)#interface FastEthernet0/2
+Switch(config-if)#switchport port-security maximum 1
+Switch(config-if)#switchport port-security mac-address 0060.2F7C.EEBD
+Switch(config-if)#switchport port-security violation shutdown
+
+Switch(config)#interface FastEthernet0/3
+Switch(config-if)#switchport port-security maximum 2
+Switch(config-if)#switchport port-security mac-address stick
+Switch(config-if)#switchport port-security violation restrict
+
+④sever0にAAAの設定を行う
+service：on
+Client Name：router
+Client IP：192.168.1.254
+Secret：rad
+Server Type：Radius
+
+Username：user1
+Password：pass1
+
+⑤router1にAAAでradiusの設定を行う
+router(config)#aaa new-model
+router(config)#aaa authentication login default group radius local
+router(config)#radius-server host 192.168.1.100 key rad
+
+⑥router1にイネーブルパスワードを暗号化して設定する
+router(config)#enable secret pass2
+
+
+
+
+
+
+
